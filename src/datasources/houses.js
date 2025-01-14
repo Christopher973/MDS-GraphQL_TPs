@@ -20,7 +20,16 @@ export default class Houses {
   }
 
   addHouse(house) {
-    this.data.push(house);
+    const existingHouse = this.data.find((h) => h.id === parseInt(house.id));
+    if (existingHouse) {
+      throw new Error(`Une maison avec l'ID ${house.id} existe déjà`);
+    }
+
+    // Si l'ID n'existe pas, ajoute la nouvelle maison
+    this.data.push({
+      ...house,
+      id: parseInt(house.id), // Assure que l'ID est un nombre
+    });
     return this.data;
   }
 
