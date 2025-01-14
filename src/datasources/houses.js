@@ -34,9 +34,23 @@ export default class Houses {
   }
 
   updateHouse(id, updates) {
-    const house = this.data.find((house) => house.id === id);
-    if (!house) throw new Error("House not found");
-    Object.assign(house, updates);
+    const houseId = parseInt(id);
+
+    // Recherche de la maison
+    const houseIndex = this.data.findIndex((house) => house.id === houseId);
+
+    // Vérification si la maison existe
+    if (houseIndex === -1) {
+      throw new Error(`Maison avec l'ID ${id} non trouvée`);
+    }
+
+    // Mise à jour de la maison
+    this.data[houseIndex] = {
+      ...this.data[houseIndex],
+      ...updates,
+      id: houseId, // Préserve l'ID original
+    };
+
     return this.data;
   }
 
