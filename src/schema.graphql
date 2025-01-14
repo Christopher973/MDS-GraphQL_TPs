@@ -1,8 +1,12 @@
 type Query {
   character(id: String!): Character
   characters: [Character]
+
   house(id: String!): House
   houses: [House]
+
+  continent(id: String!): Continent
+  continents: [Continent]
 }
 
 type Mutation {
@@ -37,4 +41,9 @@ type House {
   id: ID!
   name: String
   words: String
+}
+
+type Continent {
+  id: ID!
+  name: String
 }
