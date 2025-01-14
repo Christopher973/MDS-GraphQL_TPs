@@ -15,8 +15,13 @@ export default class Characters {
   characterReducer(character) {
     return {
       id: character.id || 0,
-      name: character.name,
+      firstName: character.firstName,
+      lastName: character.lastName,
+      fullName: character.fullName,
       title: character.title,
+      family: character.family,
+      image: character.image,
+      imageUrl: character.imageUrl,
     };
   }
 }
