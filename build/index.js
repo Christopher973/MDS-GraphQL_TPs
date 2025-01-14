@@ -424,6 +424,55 @@ module.exports = axios.create({
 
 /***/ }),
 
+/***/ "./src/datasources/houses.js":
+/*!***********************************!*\
+  !*** ./src/datasources/houses.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Houses; });
+// Définition des données dans une constante pour l'immutabilité
+const HOUSES = [{
+  id: 1,
+  name: "House Stark",
+  words: "Winter is Coming"
+}, {
+  id: 2,
+  name: "House Targaryen",
+  words: "Fire and Blood"
+}, {
+  id: 3,
+  name: "House Baratheon",
+  words: "Ours is the Fury"
+}, {
+  id: 4,
+  name: "House Greyjoy",
+  words: "We Do Not Sow"
+}];
+class Houses {
+  constructor() {
+    this.houses = HOUSES;
+  }
+  getAllHouses() {
+    return this.houses;
+  }
+  getHouseById(id) {
+    return this.houses.find(house => house.id === id);
+  }
+  houseReducer(house) {
+    return {
+      id: house.id,
+      name: house.name,
+      words: house.words
+    };
+  }
+}
+
+/***/ }),
+
 /***/ "./src/resolvers.js":
 /*!**************************!*\
   !*** ./src/resolvers.js ***!
@@ -434,8 +483,11 @@ module.exports = axios.create({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _datasources_characters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./datasources/characters */ "./src/datasources/characters.js");
+/* harmony import */ var _datasources_houses__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./datasources/houses */ "./src/datasources/houses.js");
+
 
 let characters = new _datasources_characters__WEBPACK_IMPORTED_MODULE_0__["default"]();
+let houses = new _datasources_houses__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const resolvers = {
   Query: {
     characters: async (parent, args, context, info) => {
@@ -445,6 +497,9 @@ const resolvers = {
       id
     }) => {
       return await characters.getCharacterById(id);
+    },
+    houses: async (parent, args, context, info) => {
+      return await houses.getAllHouses();
     }
   }
 };
@@ -460,8 +515,8 @@ const resolvers = {
 /***/ (function(module, exports) {
 
 
-    var doc = {"kind":"Document","definitions":[{"kind":"ObjectTypeDefinition","name":{"kind":"Name","value":"Query"},"interfaces":[],"directives":[],"fields":[{"kind":"FieldDefinition","name":{"kind":"Name","value":"character"},"arguments":[{"kind":"InputValueDefinition","name":{"kind":"Name","value":"id"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]}],"type":{"kind":"NamedType","name":{"kind":"Name","value":"Character"}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"characters"},"arguments":[],"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Character"}}},"directives":[]}]},{"kind":"ObjectTypeDefinition","name":{"kind":"Name","value":"Character"},"interfaces":[],"directives":[],"fields":[{"kind":"FieldDefinition","name":{"kind":"Name","value":"id"},"arguments":[],"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"name"},"arguments":[],"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"title"},"arguments":[],"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"directives":[]}]}],"loc":{"start":0,"end":148}};
-    doc.loc.source = {"body":"type Query {\r\n  character(id: String!): Character\r\n  characters: [Character]\r\n}\r\n\r\ntype Character {\r\n  id: ID!\r\n  name: String\r\n  title: String\r\n}\r\n","name":"GraphQL request","locationOffset":{"line":1,"column":1}};
+    var doc = {"kind":"Document","definitions":[{"kind":"ObjectTypeDefinition","name":{"kind":"Name","value":"Query"},"interfaces":[],"directives":[],"fields":[{"kind":"FieldDefinition","name":{"kind":"Name","value":"character"},"arguments":[{"kind":"InputValueDefinition","name":{"kind":"Name","value":"id"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]}],"type":{"kind":"NamedType","name":{"kind":"Name","value":"Character"}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"characters"},"arguments":[],"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Character"}}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"house"},"arguments":[{"kind":"InputValueDefinition","name":{"kind":"Name","value":"id"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]}],"type":{"kind":"NamedType","name":{"kind":"Name","value":"House"}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"houses"},"arguments":[],"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"House"}}},"directives":[]}]},{"kind":"ObjectTypeDefinition","name":{"kind":"Name","value":"Mutation"},"interfaces":[],"directives":[],"fields":[{"kind":"FieldDefinition","description":{"kind":"StringValue","value":"Create a new house","block":true},"name":{"kind":"Name","value":"createHouse"},"arguments":[{"kind":"InputValueDefinition","name":{"kind":"Name","value":"id"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"InputValueDefinition","name":{"kind":"Name","value":"name"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]},{"kind":"InputValueDefinition","name":{"kind":"Name","value":"words"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]}],"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"House"}}}},"directives":[]},{"kind":"FieldDefinition","description":{"kind":"StringValue","value":"Update an existing house","block":true},"name":{"kind":"Name","value":"updateHouse"},"arguments":[{"kind":"InputValueDefinition","name":{"kind":"Name","value":"id"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"InputValueDefinition","name":{"kind":"Name","value":"name"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]},{"kind":"InputValueDefinition","name":{"kind":"Name","value":"words"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]}],"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"House"}}}},"directives":[]},{"kind":"FieldDefinition","description":{"kind":"StringValue","value":"Delete a house","block":true},"name":{"kind":"Name","value":"deleteHouse"},"arguments":[{"kind":"InputValueDefinition","name":{"kind":"Name","value":"id"},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]}],"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"House"}}}},"directives":[]}]},{"kind":"ObjectTypeDefinition","name":{"kind":"Name","value":"Character"},"interfaces":[],"directives":[],"fields":[{"kind":"FieldDefinition","name":{"kind":"Name","value":"id"},"arguments":[],"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"name"},"arguments":[],"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"title"},"arguments":[],"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"directives":[]}]},{"kind":"ObjectTypeDefinition","name":{"kind":"Name","value":"House"},"interfaces":[],"directives":[],"fields":[{"kind":"FieldDefinition","name":{"kind":"Name","value":"id"},"arguments":[],"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"name"},"arguments":[],"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"directives":[]},{"kind":"FieldDefinition","name":{"kind":"Name","value":"words"},"arguments":[],"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"directives":[]}]}],"loc":{"start":0,"end":559}};
+    doc.loc.source = {"body":"type Query {\r\n  character(id: String!): Character\r\n  characters: [Character]\r\n  house(id: String!): House\r\n  houses: [House]\r\n}\r\n\r\ntype Mutation {\r\n  \"\"\"\r\n  Create a new house\r\n  \"\"\"\r\n  createHouse(id: ID!, name: String!, words: String!): [House]!\r\n\r\n  \"\"\"\r\n  Update an existing house\r\n  \"\"\"\r\n  updateHouse(id: ID!, name: String!, words: String!): [House]!\r\n\r\n  \"\"\"\r\n  Delete a house\r\n  \"\"\"\r\n  deleteHouse(id: ID!): [House]!\r\n}\r\n\r\ntype Character {\r\n  id: ID!\r\n  name: String\r\n  title: String\r\n}\r\n\r\ntype House {\r\n  id: ID!\r\n  name: String\r\n  words: String\r\n}\r\n","name":"GraphQL request","locationOffset":{"line":1,"column":1}};
   
 
     var names = {};

@@ -1,6 +1,8 @@
 import Characters from "./datasources/characters";
+import Houses from "./datasources/houses";
 
 let characters = new Characters();
+let houses = new Houses();
 
 const resolvers = {
   Query: {
@@ -9,6 +11,10 @@ const resolvers = {
     },
     character: async (parent, { id }) => {
       return await characters.getCharacterById(id);
+    },
+
+    houses: async (parent, args, context, info) => {
+      return await houses.getAllHouses();
     },
   },
 };
