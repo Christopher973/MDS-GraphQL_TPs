@@ -8,15 +8,34 @@ const HOUSES = [
 
 export default class Houses {
   constructor() {
-    this.houses = HOUSES;
+    this.data = HOUSES;
   }
 
   getAllHouses() {
-    return this.houses;
+    return this.data;
   }
 
   getHouseById(id) {
-    return this.houses.find((house) => house.id === id);
+    return this.data.find((house) => house.id === parseInt(id));
+  }
+
+  addHouse(house) {
+    this.data.push(house);
+    return this.data;
+  }
+
+  updateHouse(id, updates) {
+    const house = this.data.find((house) => house.id === id);
+    if (!house) throw new Error("House not found");
+    Object.assign(house, updates);
+    return this.data;
+  }
+
+  deleteHouse(id) {
+    const index = this.data.findIndex((house) => house.id === id);
+    if (index === -1) throw new Error("House not found");
+    this.data.splice(index, 1);
+    return this.data;
   }
 
   houseReducer(house) {

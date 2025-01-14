@@ -9,27 +9,17 @@ const resolvers = {
     characters: () => characters.getAllCharacters(),
     character: (_, { id }) => characters.getCharacterById(id),
     houses: () => houses.getAllHouses(),
+    house: (_, { id }) => houses.getHouseById(id),
   },
   Mutation: {
-    createHouse: (parent, { id, name, words }) => {
-      let newHouse = { id, name, words };
-      houses.houses.push(newHouse); // Correction ici
-      return houses.houses; // Et ici
+    createHouse: (_, { id, name, words }) => {
+      return houses.addHouse({ id, name, words });
     },
-    updateHouse: (parent, { id, name, words }) => {
-      let house = houses.houses.find((house) => house.id === id); // Correction ici
-      house.name = name;
-      house.words = words ? words : house.words;
-      return houses.houses; // Et ici
+    updateHouse: (_, { id, name, words }) => {
+      return houses.updateHouse(id, { name, words });
     },
-    deleteHouse: (parent, { id }) => {
-      let houseIndex = houses.houses.findIndex((house) => house.id === id); // Correction ici
-      if (houseIndex === -1) {
-        throw new Error("House not found");
-      } else {
-        houses.houses.splice(houseIndex, 1);
-      }
-      return houses.houses; // Et ici
+    deleteHouse: (_, { id }) => {
+      return houses.deleteHouse(id);
     },
   },
 };

@@ -454,13 +454,29 @@ const HOUSES = [{
 }];
 class Houses {
   constructor() {
-    this.houses = HOUSES;
+    this.data = HOUSES;
   }
   getAllHouses() {
-    return this.houses;
+    return this.data;
   }
   getHouseById(id) {
-    return this.houses.find(house => house.id === id);
+    return this.data.find(house => house.id === parseInt(id));
+  }
+  addHouse(house) {
+    this.data.push(house);
+    return this.data;
+  }
+  updateHouse(id, updates) {
+    const house = this.data.find(house => house.id === id);
+    if (!house) throw new Error("House not found");
+    Object.assign(house, updates);
+    return this.data;
+  }
+  deleteHouse(id) {
+    const index = this.data.findIndex(house => house.id === id);
+    if (index === -1) throw new Error("House not found");
+    this.data.splice(index, 1);
+    return this.data;
   }
   houseReducer(house) {
     return {
@@ -494,42 +510,37 @@ const resolvers = {
     character: (_, {
       id
     }) => characters.getCharacterById(id),
-    houses: () => houses.getAllHouses()
+    houses: () => houses.getAllHouses(),
+    house: (_, {
+      id
+    }) => houses.getHouseById(id)
   },
   Mutation: {
-    createHouse: (parent, {
+    createHouse: (_, {
       id,
       name,
       words
     }) => {
-      let newHouse = {
+      return houses.addHouse({
         id,
         name,
         words
-      };
-      houses.houses.push(newHouse); // Correction ici
-      return houses.houses; // Et ici
+      });
     },
-    updateHouse: (parent, {
+    updateHouse: (_, {
       id,
       name,
       words
     }) => {
-      let house = houses.houses.find(house => house.id === id); // Correction ici
-      house.name = name;
-      house.words = words ? words : house.words;
-      return houses.houses; // Et ici
+      return houses.updateHouse(id, {
+        name,
+        words
+      });
     },
-    deleteHouse: (parent, {
+    deleteHouse: (_, {
       id
     }) => {
-      let houseIndex = houses.houses.findIndex(house => house.id === id); // Correction ici
-      if (houseIndex === -1) {
-        throw new Error("House not found");
-      } else {
-        houses.houses.splice(houseIndex, 1);
-      }
-      return houses.houses; // Et ici
+      return houses.deleteHouse(id);
     }
   }
 };
